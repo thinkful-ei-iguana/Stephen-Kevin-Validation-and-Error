@@ -16,7 +16,7 @@ export default class AddFolder extends React.Component {
 
   validateFolderName = () => {
     const folderName = this.state.name.trim();
-    if (!folderName.length) {
+    if (folderName.length === 0) {
       return "Folder name is required";
     }
   };
@@ -33,10 +33,9 @@ export default class AddFolder extends React.Component {
         }}
       >
         <label htmlFor="folder-name">
-          New Folder
-          {this.state.touched && (
-            <ValidationError message={this.validateFolderName()} />
-          )}
+          New Folder:
+          {this.state.name.length >= 1 && (
+          <ValidationError message={this.validateFolderName()} />)}
         </label>
         <input
           type="text"
