@@ -31,6 +31,20 @@ export default class AddNote extends React.Component {
     })
   }
 
+  validateNoteName = () => {
+    const noteName = this.state.name.trim();
+    if (noteName.length === 0) {
+      return "Note name is required";
+    }
+  }
+
+  validateNoteContent = () => {
+    const noteContent = this.state.content.trim();
+    if (noteContent.length === 0) {
+      return "Note content is required";
+    }
+  }
+
   render() {
     const { addNote } = this.context;
     
@@ -42,6 +56,8 @@ export default class AddNote extends React.Component {
       }}>
         <label htmlFor="note-name">
           Note Name:
+          {this.state.name.length >= 1 && (
+            <ValidationError message={this.validateNoteName()} />)}
         </label>
         <input
           type="text"
@@ -54,6 +70,8 @@ export default class AddNote extends React.Component {
         />
         <label htmlFor="note-content">
           Note Content:
+          {this.state.content.length >= 1 && (
+            <ValidationError message={this.validateNoteContent()} />)}
         </label>
         <input
           type="text"
