@@ -32,6 +32,7 @@ export default class Notes extends React.Component {
         note => note.folderId === selectedFolderId
       );
     }
+    console.log(filteredNotes)
     return (
       <div>
         {filteredNotes.map(note => {

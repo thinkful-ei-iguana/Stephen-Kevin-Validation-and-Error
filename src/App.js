@@ -90,16 +90,31 @@ export class App extends Component {
     this.fetchNotes(this.state.baseNotes, { method: "GET" });
   }
 
+  handleDeleteNote = (id) => {
+    const url = `${this.state.baseNotes}/${id}`
+      return fetch(url, { method: "DELETE" })
+        .then(response => {
+          if (!response.ok) {
+            console.log("An error occured");
+            throw new Error("This is a problem");
+          }
+          return response;
+        })
+        .then(response => response.json())
+        .catch(err => {
+          console.log("Handling error", err);
+        });
+  }
+
   delete = noteId => {
-    let newUrl = `http://localhost:9090/notes/${noteId}`;
     let newNotes = this.state.notes.filter(note => note.id !== noteId);
-    this.fetchNotes(`${newUrl}`, { method: "DELETE" }).then(() => {
-      this.setState({
-        noteId: noteId,
-        notes: newNotes
+    console.log(newNotes);
+    this.handleDeleteNote(noteId)
+      .then(() => {
+        this.fetchNotes(this.state.baseNotes, { method: "GET" })
       });
-    });
   };
+
 
   render() {
     const contextValue = {
