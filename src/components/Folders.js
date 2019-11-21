@@ -13,6 +13,10 @@ export default class Folders extends React.Component {
     this.setState({addingFolder: true})
   }
 
+  resetAdding = () => {
+    this.setState({addingFolder: false})
+  }
+
   render() {
     return (
       <div className="Folders">
@@ -34,7 +38,7 @@ export default class Folders extends React.Component {
         >
         Add new folder
         </button>
-        {this.state.addingFolder === true && <AddFolder />}
+        {this.state.addingFolder === true && <AddFolder reset={this.resetAdding} />}
       </div>
     );
   }
