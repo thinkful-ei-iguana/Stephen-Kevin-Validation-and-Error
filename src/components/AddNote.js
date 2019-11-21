@@ -6,6 +6,7 @@ import Context from '../Context';
 export default class AddNote extends React.Component {
   state = {
     name: "",
+    modified: Date.now(),
     folderId: "",
     content: ""
   };
@@ -31,8 +32,14 @@ export default class AddNote extends React.Component {
   }
 
   render() {
+    const { addNote } = this.context;
+    
     return (
-      <form className="add-note">
+      <form className="add-note" onSubmit={event => {
+        event.preventDefault()
+        addNote(this.state)
+        this.props.reset()
+      }}>
         <label htmlFor="note-name">
           Note Name:
         </label>
@@ -66,7 +73,9 @@ export default class AddNote extends React.Component {
           onChange={event => {
             this.setNoteFolderId(event.target.value)
           }}
+          required
         >
+          <option value="">select folder</option>
           <FolderOptions />
         </select>
         <button>submit</button>

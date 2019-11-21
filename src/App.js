@@ -29,6 +29,7 @@ export class App extends Component {
         return response;
       })
       .then(response => response.json())
+      .then(data =>this.setState({ notes: data }))
       .catch(err => {
         console.log("Handling error", err);
       });
@@ -67,12 +68,26 @@ export class App extends Component {
       })
   };
 
+  handleAddNote = (state) => {
+    const url = "http://localhost:9090/notes"
+    return fetch(url, { method: "POST", body: JSON.stringify(state), headers: {'Content-Type': 'application/json'}})
+      .then(response => {
+        if(!response.ok) {
+          console.log("An error occured");
+          throw new Error("This is a problem");
+        } return response;
+      })
+      .then(response => response.json())
+      .then(data => {
+        this.fetchNotes(url, { method: "GET" })})
+      .catch(err => {
+        console.log("Handling error", err);
+      })
+  }
+
   componentDidMount() {
     this.fetchFolders(this.state.baseFolders, { method: "GET" });
-    this.fetchNotes(this.state.baseNotes, { method: "GET" }).then(data => {
-      const APInotes = data;
-      this.setState({ notes: APInotes });
-    });
+    this.fetchNotes(this.state.baseNotes, { method: "GET" });
   }
 
   delete = noteId => {
@@ -91,7 +106,8 @@ export class App extends Component {
       folders: this.state.folders,
       notes: this.state.notes,
       delete: this.delete,
-      addFolder: this.handleAddFolder
+      addFolder: this.handleAddFolder,
+      addNote: this.handleAddNote
     };
 
     return (

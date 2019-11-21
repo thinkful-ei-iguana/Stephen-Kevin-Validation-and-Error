@@ -16,6 +16,12 @@ export default class Notes extends React.Component {
     })
   }
 
+  resetAdding = () => {
+    this.setState({
+      addingNote: false
+    })
+  }
+
   render() {
     let filteredNotes;
     const selectedFolderId = this.props.match.params.folderId;
@@ -44,7 +50,7 @@ export default class Notes extends React.Component {
           Add new note
         </button>
         {this.state.addingNote && (
-          <AddNote />
+          <AddNote reset={this.resetAdding} />
         )}
       </div>
     );
