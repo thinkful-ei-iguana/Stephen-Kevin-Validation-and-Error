@@ -1,9 +1,21 @@
 import React from "react";
+import AddNote from './AddNote';
 import Note from "./Note";
 import Context from "../Context";
 
 export default class Notes extends React.Component {
+  state = {
+    addingNote: false
+  }
+  
   static contextType = Context;
+
+  setAdding = () => {
+    this.setState({
+      addingNote: true
+    })
+  }
+
   render() {
     let filteredNotes;
     const selectedFolderId = this.props.match.params.folderId;
@@ -28,7 +40,12 @@ export default class Notes extends React.Component {
             />
           );
         })}
-        <button>Add new note</button>
+        <button onClick={() => this.setAdding()}>
+          Add new note
+        </button>
+        {this.state.addingNote && (
+          <AddNote />
+        )}
       </div>
     );
   }

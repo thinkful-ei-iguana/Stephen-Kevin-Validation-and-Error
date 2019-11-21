@@ -9,8 +9,7 @@ export default class AddFolder extends React.Component {
 
   static contextType = Context;
 
-  setFolder = folder => {
-    console.log(folder);
+  setFolder = (folder) => {
     this.setState({ name: folder });
   };
 
@@ -44,7 +43,8 @@ export default class AddFolder extends React.Component {
           onChange={event => {
             this.setFolder(event.target.value);
           }}
-        ></input>
+          required
+        />
         <button>Submit</button>
       </form>
     );
