@@ -6,6 +6,7 @@ import FolderView from "./components/FolderView";
 import { Route, Switch, Link } from "react-router-dom";
 import Context from "./Context";
 import "./App.css";
+import AppError from './components/AppError';
 
 export class App extends Component {
   constructor(props) {
@@ -19,7 +20,7 @@ export class App extends Component {
     };
   }
 
-  fetchNotes = function(url, { method }) {
+  fetchNotes = function (url, { method }) {
     return fetch(url, { method })
       .then(response => {
         if (!response.ok) {
@@ -29,13 +30,13 @@ export class App extends Component {
         return response;
       })
       .then(response => response.json())
-      .then(data =>this.setState({ notes: data }))
+      .then(data => this.setState({ notes: data }))
       .catch(err => {
         console.log("Handling error", err);
       });
   };
 
-  fetchFolders = function(url, { method }) {
+  fetchFolders = function (url, { method }) {
     return fetch(url, { method })
       .then(response => {
         if (!response.ok) {
@@ -45,7 +46,7 @@ export class App extends Component {
         return response;
       })
       .then(response => response.json())
-      .then(data => this.setState({ folders: data}))
+      .then(data => this.setState({ folders: data }))
       .catch(err => {
         console.log("Handling error", err);
       });
@@ -53,16 +54,17 @@ export class App extends Component {
 
   handleAddFolder = (state) => {
     const url = "http://localhost:9090/folders"
-    return fetch(url, { method: "POST", body: JSON.stringify(state), headers: {'Content-Type': 'application/json'}})
+    return fetch(url, { method: "POST", body: JSON.stringify(state), headers: { 'Content-Type': 'application/json' } })
       .then(response => {
-        if(!response.ok) {
+        if (!response.ok) {
           console.log("An error occured");
           throw new Error("This is a problem");
         } return response;
       })
       .then(response => response.json())
       .then(data => {
-        this.fetchFolders(url, { method: "GET" })})
+        this.fetchFolders(url, { method: "GET" })
+      })
       .catch(err => {
         console.log("Handling error", err);
       })
@@ -70,16 +72,17 @@ export class App extends Component {
 
   handleAddNote = (state) => {
     const url = "http://localhost:9090/notes"
-    return fetch(url, { method: "POST", body: JSON.stringify(state), headers: {'Content-Type': 'application/json'}})
+    return fetch(url, { method: "POST", body: JSON.stringify(state), headers: { 'Content-Type': 'application/json' } })
       .then(response => {
-        if(!response.ok) {
+        if (!response.ok) {
           console.log("An error occured");
           throw new Error("This is a problem");
         } return response;
       })
       .then(response => response.json())
       .then(data => {
-        this.fetchNotes(url, { method: "GET" })})
+        this.fetchNotes(url, { method: "GET" })
+      })
       .catch(err => {
         console.log("Handling error", err);
       })
@@ -92,18 +95,18 @@ export class App extends Component {
 
   handleDeleteNote = (id) => {
     const url = `${this.state.baseNotes}/${id}`
-      return fetch(url, { method: "DELETE" })
-        .then(response => {
-          if (!response.ok) {
-            console.log("An error occured");
-            throw new Error("This is a problem");
-          }
-          return response;
-        })
-        .then(response => response.json())
-        .catch(err => {
-          console.log("Handling error", err);
-        });
+    return fetch(url, { method: "DELETE" })
+      .then(response => {
+        if (!response.ok) {
+          console.log("An error occured");
+          throw new Error("This is a problem");
+        }
+        return response;
+      })
+      .then(response => response.json())
+      .catch(err => {
+        console.log("Handling error", err);
+      });
   }
 
   delete = noteId => {
@@ -133,15 +136,17 @@ export class App extends Component {
               <h2>Noteful</h2>
             </Link>
           </header>
-          <Switch>
-            <Route exact path="/" component={HomePage} />
+          <AppError>
+            <Switch>
+              <Route exact path="/" component={HomePage} />
 
-            <Route path="/folder/:folderId" component={FolderView} />
+              <Route path="/folder/:folderId" component={FolderView} />
 
-            <Route path="/notes/:noteId" component={NoteView} />
+              <Route path="/notes/:noteId" component={NoteView} />
 
-            <Route component={NotFound} />
-          </Switch>
+              <Route component={NotFound} />
+            </Switch>
+          </AppError>
         </div>
       </Context.Provider>
     );

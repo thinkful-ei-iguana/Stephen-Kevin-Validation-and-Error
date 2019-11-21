@@ -1,6 +1,7 @@
 import React from "react";
 import ValidationError from "./ValidationError";
 import Context from "../Context";
+import PropTypes from "prop-types"
 
 export default class AddFolder extends React.Component {
   state = {
@@ -49,4 +50,8 @@ export default class AddFolder extends React.Component {
       </form>
     );
   }
+}
+
+AddFolder.propTypes = {
+  reset: PropTypes.func.isRequired
 }

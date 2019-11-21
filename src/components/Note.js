@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Context from "../Context";
+import PropTypes from "prop-types";
 
 export default class Note extends React.Component {
   static contextType = Context;
@@ -28,4 +29,10 @@ export default class Note extends React.Component {
       </Link>
     );
   }
+}
+
+Note.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  modieifed: PropTypes.string.isRequired
 }

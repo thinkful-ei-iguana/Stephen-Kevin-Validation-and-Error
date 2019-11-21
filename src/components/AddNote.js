@@ -2,6 +2,7 @@ import React from 'react';
 import FolderOptions from './FolderOptions';
 import ValidationError from './ValidationError';
 import Context from '../Context';
+import PropTypes from 'prop-types'
 
 export default class AddNote extends React.Component {
   state = {
@@ -100,4 +101,8 @@ export default class AddNote extends React.Component {
       </form>
     )
   }
+}
+
+AddNote.propTypes = {
+  reset: PropTypes.func.isRequired
 }
